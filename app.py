@@ -1,4 +1,3 @@
-
 import streamlit as st
 import geopandas as gpd
 import pandas as pd
@@ -9,15 +8,13 @@ from shapely.geometry import Point
 import osmnx as ox
 import requests
 from streamlit_folium import st_folium
-import openai
 import math
 import os
 
 # ────────────────────────────── 
 # ✅ 환경변수 불러오기 (Streamlit Cloud 호환에 저장된 키 사용)
 # ──────────────────────────────
-MAPBOX_TOKEN = "pk.eyJ1Ijoia2lteWVvbmp1biIsImEiOiJjbWRiZWw2NTEwNndtMmtzNHhocmNiMHllIn0.r7R2ConWouvP-Bmsppuvzw"
-openai.api_key = "sk-proj-CrnyAxHpjHnHg6wu4iuTFlMRW8yFgSaAsmk8rTKcAJrYkPocgucoojPeVZ-uARjei6wyEILHmgT3BlbkFJ2_tSjk8mGQswRVBPzltFNh7zXYrsTfOIT3mzESkqrz2vbUsCIw3O1a2I6txAACdi673MitM1UA4"
+MAPBOX_TOKEN = "pk.eyJ1IjoiZ3VyMDUxMDgiLCJhIjoiY21lZ2k1Y291MTdoZjJrb2k3bHc3cTJrbSJ9.DElgSQ0rPoRk1eEacPI8uQ"
 
 # ──────────────────────────────
 # ✅ 데이터 로드 (안전한 로드)
@@ -25,9 +22,9 @@ openai.api_key = "sk-proj-CrnyAxHpjHnHg6wu4iuTFlMRW8yFgSaAsmk8rTKcAJrYkPocgucooj
 @st.cache_data
 def load_data():
     try:
-        gdf = gpd.read_file("cb_tour.shp").to_crs(epsg=4326)
+        gdf = gpd.read_file("./cb_tour.shp").to_crs(epsg=4326)
         gdf["lon"], gdf["lat"] = gdf.geometry.x, gdf.geometry.y
-        boundary = gpd.read_file("cb_shp.shp").to_crs(epsg=4326)
+        boundary = gpd.read_file("./cb_shp.shp").to_crs(epsg=4326)
         data = pd.read_csv("cj_data_final.csv", encoding="cp949").drop_duplicates()
         return gdf, boundary, data
     except Exception as e:
